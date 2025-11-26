@@ -1,0 +1,5 @@
+<template>
+  <aside ...attributes>
+    <div class="avatar" title={{@title}}>{{@initial}}</div>
+  </aside>
+</template>
