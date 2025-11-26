@@ -2,10 +2,11 @@ import { LinkTo } from '@ember/routing';
 import Jumbo from 'ember-quickstart/components/jumbo';
 import Rental from 'ember-quickstart/components/rental';
 
+
+//NOTE mélange tableau de bord/à la une ???
 <template>
   <Jumbo>
-    <h2>Welcome to Super Rentals!</h2>
-    <p>We hope you find exactly what you're looking for in a place to stay.</p>
+    <h2>WebMeets</h2>
     <LinkTo @route="about" class="button">About Us</LinkTo>
   </Jumbo>
 

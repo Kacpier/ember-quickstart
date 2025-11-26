@@ -3,14 +3,23 @@ import { LinkTo } from '@ember/routing';
 <template>
   <nav class="menu">
     <LinkTo @route="index" class="menu-index">
-      <h1>SuperRentals</h1>
+      <h1>WebMeets</h1>
     </LinkTo>
     <div class="links">
-      <LinkTo @route="about" class="menu-about">
-        About
+      <LinkTo @route="monProfil" class="menu-about">
+        Mon profil
       </LinkTo>
       <LinkTo @route="contact" class="menu-contact">
-        Contact
+        Connections
+      </LinkTo>
+      <LinkTo @route="contact" class="menu-contact">
+        Tableau de bord
+      </LinkTo>
+      <LinkTo @route="contact" class="menu-contact">
+        Messages
+      </LinkTo>
+      <LinkTo @route="contact" class="menu-contact">
+        Evenements
       </LinkTo>
     </div>
   </nav>

@@ -481,3 +481,23 @@ p {
 }
 
 /* stylelint-enable no-descending-specificity, media-feature-range-notation */
+
+
+/*Profil*/
+
+.profil{
+  color: brown;
+  display:inline-flex;
+  box-sizing: content-box;
+  width: 100%;
+  max-width: 100%;
+  column-count: 3;
+  column-gap: 33%;
+  border: 2px #111;
+  border-style: solid;
+  align-items:start;
+  -webkit-border-radius: 50px;
+  border-radius:50%;
+  box-shadow: 10px 10px #111 ;
+  column-fill: balance;
+}
