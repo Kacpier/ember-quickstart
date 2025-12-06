@@ -18,11 +18,8 @@ export default setComponentTemplate(
   hbs`
     <aside class="sidebar" ...attributes>
       <div class="sidebar-header">
-        <div class="sidebar-logo-box gradient">
-          <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 6V4.5A1.5 1.5 0 0110.5 3h3A1.5 1.5 0 0115 4.5V6m-6 0h6m-6 0H6.5A1.5 1.5 0 005 7.5v9A1.5 1.5 0 006.5 18h11a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0017.5 6H9z" />
-          </svg>
+        <div class="login-icon">
+          WM
         </div>
         <div class="sidebar-title-box">
           <h2 class="sidebar-app-title">WebMeets</h2>
