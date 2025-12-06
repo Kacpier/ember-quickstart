@@ -82,10 +82,20 @@ export default setComponentTemplate(
 
             <footer class="chat-input">
               <div class="chat-actions">
-                <button type="button">📎</button>
+                <button type="button" class="chat-icon-btn" aria-label="Joindre un fichier">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 12.5 15.5 5a3 3 0 1 1 4 4l-9 9a5 5 0 0 1-7-7l8-8" />
+                  </svg>
+                </button>
               </div>
               <input type="text" placeholder="Tapez votre message..." />
-              <button type="button" class="send-btn">📨</button>
+              <button type="button" class="send-btn" aria-label="Envoyer le message">
+                <svg xmlns="http://www.w3.org/2000/svg" class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 4l16 8-16 8 4.5-8L4 4Zm4.5 8H20" />
+                </svg>
+              </button>
             </footer>
           </div>
         </section>

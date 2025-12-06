@@ -490,7 +490,7 @@ export default setComponentTemplate(
                   class={{if post.isCommenting "reaction-pill active" "reaction-pill"}}
                   {{on "click" (fn this.toggleCommenting index)}}
                 >
-                  💬 Commenter
+                  Commenter
                 </button>
                 <button type="button" class="reaction-pill" {{on "click" (fn this.addShare index)}}>
                   ↗ Partager

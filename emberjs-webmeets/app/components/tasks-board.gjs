@@ -139,7 +139,10 @@ export default setComponentTemplate(
                       </div>
                       <div class="meta-right">
                         <span class="meta-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h6m5 9v-3a5 5 0 00-5-5H7a5 5 0 00-5 5v3"/></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 5h16a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8l-4 3V6a1 1 0 0 1 1-1z" />
+                          </svg>
                           {{task.comments}}
                         </span>
                         <span class="meta-icon">

@@ -41,7 +41,7 @@ export default setComponentTemplate(
             <LinkTo @route="dashboard" class="item" @activeClass="active">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M3 12l9-9 9 9M4 10v10h6V14h4v6h6V10" />
+                  d="M3 12.5 12 4l9 8.5V20a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-5H10v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
               </svg>
               Tableau de bord
             </LinkTo>
@@ -50,7 +50,8 @@ export default setComponentTemplate(
             <LinkTo @route="featured" class="item" @activeClass="active">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 4a16 16 0 0116 16M4 4a8 8 0 018 8M4 12a4 4 0 014 4" />
+                  d="M3 11l14-5v12l-14-5v3a2 2 0 0 0 2 2h2m8-11v12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 9v6" />
               </svg>
               À la une
             </LinkTo>
@@ -59,22 +60,25 @@ export default setComponentTemplate(
             <LinkTo @route="profiles" class="item" @activeClass="active">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M5.121 17.804A9 9 0 0112 15a9 9 0 016.879 2.804M12 12a4 4 0 100-8 4 4 0 000 8z" />
+                  d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-7 7a7 7 0 0 1 14 0" />
               </svg>
               Mon Profil
             </LinkTo>
           </li>
           <li class="item">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="7" cy="8" r="3" stroke-width="2" />
+              <circle cx="17" cy="8" r="3" stroke-width="2" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 8h4" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 20h5v-2a4 4 0 00-4-4h-1M7 20H2v-2a4 4 0 014-4h1m8-6a4 4 0 11-8 0 4 4 0 018 0z" />
+                d="M4 19v-.5A4.5 4.5 0 0 1 8.5 14h7A4.5 4.5 0 0 1 20 18.5V19" />
             </svg>
             Réseau
           </li>
           <li class="item">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z" />
+                d="M8 3v2m8-2v2M5 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Zm11 5.5-2 2-1-1" />
             </svg>
             Événements
           </li>
@@ -82,7 +86,8 @@ export default setComponentTemplate(
             <LinkTo @route="tasks" class="item" @activeClass="active">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 5h6M9 3h6a2 2 0 012 2v14a2 2 0 01-2 2H9a2 2 0 01-2-2V5a2 2 0 012-2zM9 14h.01M9 11h.01" />
+                  d="M9 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm-1 5h8m-8 4h8m-8 4h4" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 9.5 9 11l-1-.75" />
               </svg>
               Tâches
             </LinkTo>
@@ -90,7 +95,7 @@ export default setComponentTemplate(
           <li class="item">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 10h18M3 6h18M5 14h2M9 14h2M13 14h2M17 14h2M5 18h2M9 18h2M13 18h2M17 18h2" />
+                d="M7 3v2m10-2v2M5 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Zm2 4h3m4 0h3m-10 4h3m4 0h3" />
             </svg>
             Calendrier
           </li>
@@ -98,7 +103,7 @@ export default setComponentTemplate(
             <LinkTo @route="messages" class="item" @activeClass="active">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M7 8h10M7 12h6m5 9v-3a5 5 0 00-5-5H7a5 5 0 00-5 5v3" />
+                  d="M5 5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H8l-4 3v-3H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm3 6h8m-8-3h10" />
               </svg>
               Messages
             </LinkTo>

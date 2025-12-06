@@ -1717,11 +1717,28 @@ body {
   font-size: 16px;
 }
 
+.chat-icon-btn {
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.chat-icon {
+  width: 18px;
+  height: 18px;
+  color: #0f172a;
+}
+
 .send-btn {
   background: #0f172a;
   color: white;
   border-radius: 10px;
   padding: 8px 12px;
+  display: grid;
+  place-items: center;
 }
 
 .modal-backdrop {
