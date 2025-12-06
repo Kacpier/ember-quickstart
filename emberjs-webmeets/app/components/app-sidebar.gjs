@@ -1,9 +1,18 @@
 import Component from '@glimmer/component';
 import { setComponentTemplate } from '@ember/component';
+import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 import { LinkTo } from '@ember/routing';
 
-class AppSidebar extends Component {}
+class AppSidebar extends Component {
+  @service router;
+
+  @action
+  logout() {
+    this.router.transitionTo('index');
+  }
+}
 
 export default setComponentTemplate(
   hbs`
@@ -100,7 +109,7 @@ export default setComponentTemplate(
         </ul>
       </nav>
 
-      <button class="sidebar-logout" type="button">
+      <button class="sidebar-logout" type="button" {{on "click" this.logout}}>
         <svg xmlns="http://www.w3.org/2000/svg" class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 013-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
