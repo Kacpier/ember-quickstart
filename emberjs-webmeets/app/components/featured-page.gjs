@@ -124,13 +124,26 @@ class FeaturedPage extends Component {
   @tracked newPostText = '';
   @tracked pollQuestion = '';
   @tracked pollOptions = ['', ''];
-  @tracked posts = DEFAULT_POSTS.map((post, index) => ({
-    ...post,
-    id: post.id ?? `default-post-${index}`,
-    comments: post.comments ?? [],
-    draftComment: '',
-    isCommenting: false,
-  }));
+  @tracked posts = DEFAULT_POSTS.map((post, index) => this.normalizePost(post, index));
+
+  normalizePost(post, index) {
+    let isPoll = Boolean(post.isPoll);
+    let pollOptionsCount = isPoll ? post.poll?.options?.length ?? 0 : 0;
+    let pollVotes = isPoll
+      ? Array.from({ length: pollOptionsCount }, (_, i) => post.pollVotes?.[i] ?? 0)
+      : [];
+
+    return {
+      ...post,
+      id: post.id ?? `default-post-${index}`,
+      comments: post.comments ?? [],
+      draftComment: post.draftComment ?? '',
+      isCommenting: post.isCommenting ?? false,
+      pollVotes,
+      hasVoted: post.hasVoted ?? false,
+      votedOption: typeof post.votedOption === 'number' ? post.votedOption : null,
+    };
+  }
 
   get isPoll() {
     return this.composerType === 'poll';
@@ -205,26 +218,26 @@ class FeaturedPage extends Component {
         return;
       }
 
-      let newPost = {
-        id: `post-${this.postIdCounter++}`,
-        author: 'Sophie Laurent',
-        title: 'Cheffe de projet digital • WebMeets',
-        time: 'À l’instant',
-        text: '',
-        tags: ['Sondage'],
-        isPoll: true,
-        poll: {
-          question,
-          options,
+      let newPost = this.normalizePost(
+        {
+          id: `post-${this.postIdCounter++}`,
+          author: 'Sophie Laurent',
+          title: 'Cheffe de projet digital • WebMeets',
+          time: 'À l’instant',
+          text: '',
+          tags: ['Sondage'],
+          isPoll: true,
+          poll: {
+            question,
+            options,
+          },
+          likes: 0,
+          commentsCount: 0,
+          shares: 0,
+          liked: false,
         },
-        likes: 0,
-        commentsCount: 0,
-        comments: [],
-        draftComment: '',
-        isCommenting: false,
-        shares: 0,
-        liked: false,
-      };
+        this.postIdCounter
+      );
 
       this.posts = [newPost, ...this.posts];
       this.resetComposer();
@@ -234,22 +247,22 @@ class FeaturedPage extends Component {
     let text = this.newPostText.trim();
     if (!text) return;
 
-    let newPost = {
-      id: `post-${this.postIdCounter++}`,
-      author: 'Sophie Laurent',
-      title: 'Cheffe de projet digital • WebMeets',
-      time: 'À l’instant',
-      text,
-      tags: ['Nouveau'],
-      image: null,
-      likes: 0,
-      commentsCount: 0,
-      comments: [],
-      draftComment: '',
-      isCommenting: false,
-      shares: 0,
-      liked: false,
-    };
+    let newPost = this.normalizePost(
+      {
+        id: `post-${this.postIdCounter++}`,
+        author: 'Sophie Laurent',
+        title: 'Cheffe de projet digital • WebMeets',
+        time: 'À l’instant',
+        text,
+        tags: ['Nouveau'],
+        image: null,
+        likes: 0,
+        commentsCount: 0,
+        shares: 0,
+        liked: false,
+      },
+      this.postIdCounter
+    );
 
     this.posts = [newPost, ...this.posts];
     this.resetComposer();
@@ -266,6 +279,10 @@ class FeaturedPage extends Component {
   commentCount(post) {
     let listCount = Array.isArray(post.comments) ? post.comments.length : 0;
     return listCount || post.commentsCount || 0;
+  }
+
+  isOptionSelected(post, optionIndex) {
+    return post?.votedOption === optionIndex;
   }
 
   @action toggleLike(index) {
@@ -312,6 +329,17 @@ class FeaturedPage extends Component {
     this.posts = this.posts.map((post, i) =>
       i === index ? { ...post, draftComment: '', isCommenting: false } : post
     );
+  }
+
+  @action votePoll(postIndex, optionIndex) {
+    this.posts = this.posts.map((post, i) => {
+      if (i !== postIndex || !post.isPoll || post.hasVoted) return post;
+
+      let pollVotes = Array.from(post.pollVotes ?? []);
+      pollVotes[optionIndex] = (pollVotes[optionIndex] ?? 0) + 1;
+
+      return { ...post, pollVotes, hasVoted: true, votedOption: optionIndex };
+    });
   }
 
   @action addShare(index) {
@@ -414,10 +442,17 @@ export default setComponentTemplate(
                 <div class="poll-block">
                   <p class="feed-body">{{post.poll.question}}</p>
                   <div class="poll-options-list">
-                    {{#each post.poll.options as |opt|}}
+                    {{#each post.poll.options as |opt optIndex|}}
                       <div class="poll-option">
                         <span>{{opt}}</span>
-                        <button type="button" class="chip-btn">Voter</button>
+                        <button
+                          type="button"
+                          class={{if (this.isOptionSelected post optIndex) "chip-btn voted" "chip-btn"}}
+                          disabled={{post.hasVoted}}
+                          {{on "click" (fn this.votePoll index optIndex)}}
+                        >
+                          {{if (this.isOptionSelected post optIndex) "Voté" "Voter"}}
+                        </button>
                       </div>
                     {{/each}}
                   </div>
