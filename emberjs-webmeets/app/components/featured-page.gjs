@@ -15,6 +15,14 @@ const DEFAULT_POSTS = [
     tags: ['IA', 'Innovation', 'Futur du travail'],
     image:
       'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&auto=format&fit=crop&q=80',
+    likes: 24,
+    commentsCount: 8,
+    comments: [
+      { author: 'Thomas', text: 'J’y étais, super keynote !', time: 'Il y a 1h' },
+      { author: 'Marie', text: 'Les démos étaient incroyables.', time: 'Il y a 30min' },
+    ],
+    shares: 3,
+    liked: false,
   },
   {
     author: 'Thomas Martin',
@@ -24,6 +32,13 @@ const DEFAULT_POSTS = [
     tags: ['Open Source', 'Dev', 'Collaboration'],
     image:
       'https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?w=1200&auto=format&fit=crop&q=80',
+    likes: 12,
+    commentsCount: 2,
+    comments: [
+      { author: 'Sophie', text: 'Hâte de contribuer !', time: 'Il y a 3h' },
+    ],
+    shares: 1,
+    liked: false,
   },
 ];
 
@@ -37,13 +52,21 @@ class FeaturedPage extends Component {
     "Offres d'emploi",
   ];
 
+  postIdCounter = DEFAULT_POSTS.length;
+
   @tracked selectedTab = 'Tous';
   @tracked composerType = 'post'; // 'post' | 'poll'
   @tracked composerAttachment = 'text'; // 'text' | 'photo' | 'document'
   @tracked newPostText = '';
   @tracked pollQuestion = '';
   @tracked pollOptions = ['', ''];
-  @tracked posts = DEFAULT_POSTS.map((post) => ({ ...post }));
+  @tracked posts = DEFAULT_POSTS.map((post, index) => ({
+    ...post,
+    id: post.id ?? `default-post-${index}`,
+    comments: post.comments ?? [],
+    draftComment: '',
+    isCommenting: false,
+  }));
 
   get isPoll() {
     return this.composerType === 'poll';
@@ -119,6 +142,7 @@ class FeaturedPage extends Component {
       }
 
       let newPost = {
+        id: `post-${this.postIdCounter++}`,
         author: 'Sophie Laurent',
         title: 'Cheffe de projet digital • WebMeets',
         time: 'À l’instant',
@@ -129,6 +153,13 @@ class FeaturedPage extends Component {
           question,
           options,
         },
+        likes: 0,
+        commentsCount: 0,
+        comments: [],
+        draftComment: '',
+        isCommenting: false,
+        shares: 0,
+        liked: false,
       };
 
       this.posts = [newPost, ...this.posts];
@@ -140,12 +171,20 @@ class FeaturedPage extends Component {
     if (!text) return;
 
     let newPost = {
+      id: `post-${this.postIdCounter++}`,
       author: 'Sophie Laurent',
       title: 'Cheffe de projet digital • WebMeets',
       time: 'À l’instant',
       text,
       tags: ['Nouveau'],
       image: null,
+      likes: 0,
+      commentsCount: 0,
+      comments: [],
+      draftComment: '',
+      isCommenting: false,
+      shares: 0,
+      liked: false,
     };
 
     this.posts = [newPost, ...this.posts];
@@ -158,6 +197,61 @@ class FeaturedPage extends Component {
     this.pollOptions = ['', ''];
     this.composerType = 'post';
     this.composerAttachment = 'text';
+  }
+
+  commentCount(post) {
+    let listCount = Array.isArray(post.comments) ? post.comments.length : 0;
+    return listCount || post.commentsCount || 0;
+  }
+
+  @action toggleLike(index) {
+    let next = this.posts.map((post, i) => {
+      if (i !== index) return post;
+      let liked = !post.liked;
+      let likes = liked ? post.likes + 1 : Math.max(0, post.likes - 1);
+      return { ...post, liked, likes };
+    });
+    this.posts = next;
+  }
+
+  @action toggleCommenting(index) {
+    this.posts = this.posts.map((post, i) =>
+      i === index ? { ...post, isCommenting: !post.isCommenting } : post
+    );
+  }
+
+  @action updateCommentDraft(index, event) {
+    let value = event.target.value;
+    this.posts = this.posts.map((post, i) => (i === index ? { ...post, draftComment: value } : post));
+  }
+
+  commentPublishDisabled(post) {
+    return !(post?.draftComment ?? '').trim().length;
+  }
+
+  @action submitComment(index) {
+    this.posts = this.posts.map((post, i) => {
+      if (i !== index) return post;
+
+      let text = (post.draftComment ?? '').trim();
+      if (!text) return post;
+
+      let newComment = { author: 'Vous', text, time: 'À l’instant' };
+      let comments = [...(post.comments ?? []), newComment];
+      let commentsCount = comments.length;
+
+      return { ...post, comments, commentsCount, draftComment: '', isCommenting: true };
+    });
+  }
+
+  @action cancelComment(index) {
+    this.posts = this.posts.map((post, i) =>
+      i === index ? { ...post, draftComment: '', isCommenting: false } : post
+    );
+  }
+
+  @action addShare(index) {
+    this.posts = this.posts.map((post, i) => (i === index ? { ...post, shares: post.shares + 1 } : post));
   }
 }
 
@@ -238,7 +332,7 @@ export default setComponentTemplate(
 
         <section class="feed-list">
           {{#if this.posts.length}}
-            {{#each this.posts as |post|}}
+            {{#each this.posts key="id" as |post index|}}
             <article class="feed-card">
               <header class="feed-card-head">
                 <div class="feed-author">
@@ -279,6 +373,69 @@ export default setComponentTemplate(
               {{#if post.image}}
                 <div class="feed-image">
                   <img src="{{post.image}}" alt="Illustration" />
+                </div>
+              {{/if}}
+
+              <div class="post-stats">
+                <span>{{post.likes}} J'aime</span>
+                <span>{{this.commentCount post}} Commentaires</span>
+                <span>{{post.shares}} Partages</span>
+              </div>
+
+              <div class="reaction-bar">
+                <button type="button" class={{if post.liked "reaction-pill liked" "reaction-pill"}} {{on "click" (fn this.toggleLike index)}}>
+                  <span class="icon-heart">♡</span> J'aime
+                </button>
+                <button
+                  type="button"
+                  class={{if post.isCommenting "reaction-pill active" "reaction-pill"}}
+                  {{on "click" (fn this.toggleCommenting index)}}
+                >
+                  💬 Commenter
+                </button>
+                <button type="button" class="reaction-pill" {{on "click" (fn this.addShare index)}}>
+                  ↗ Partager
+                </button>
+              </div>
+
+              {{#if post.isCommenting}}
+                <div class="comment-composer">
+                  <div class="comment-avatar"></div>
+                  <div class="comment-composer-body">
+                    <textarea
+                      rows="2"
+                      placeholder="Ajoutez un commentaire…"
+                      value={{post.draftComment}}
+                      {{on "input" (fn this.updateCommentDraft index)}}
+                    ></textarea>
+                    <div class="comment-composer-actions">
+                      <button type="button" class="chip-btn ghost" {{on "click" (fn this.cancelComment index)}}>
+                        Annuler
+                      </button>
+                      <button
+                        type="button"
+                        class="publish-btn small"
+                        disabled={{this.commentPublishDisabled post}}
+                        {{on "click" (fn this.submitComment index)}}
+                      >
+                        Publier
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+
+              {{#if post.comments}}
+                <div class="comment-thread">
+                  {{#each post.comments as |comment|}}
+                    <div class="comment-row">
+                      <div class="comment-avatar"></div>
+                      <div class="comment-body">
+                        <p class="comment-author">{{comment.author}} · <span class="comment-time">{{comment.time}}</span></p>
+                        <p class="comment-text">{{comment.text}}</p>
+                      </div>
+                    </div>
+                  {{/each}}
                 </div>
               {{/if}}
             </article>
