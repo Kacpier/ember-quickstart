@@ -7,6 +7,70 @@ import AppSidebar from './app-sidebar';
 
 const DEFAULT_POSTS = [
   {
+    author: 'Emma Petit',
+    title: 'Marketing Manager • Growth Agency',
+    time: 'Il y a 1 j',
+    text:
+      'Nouvelle stratégie de contenu pour 2024 ! Focus sur l’authenticité et l’engagement communautaire. Quelles sont vos meilleures pratiques ? 📢',
+    tags: ['Marketing', 'Stratégie', 'Contenu'],
+    likes: 35,
+    commentsCount: 12,
+    shares: 8,
+    liked: false,
+  },
+  {
+    author: 'Paul Rousseau',
+    title: 'DevOps Engineer • Cloud Systems',
+    time: 'Il y a 4 j',
+    text:
+      'Migration réussie vers Kubernetes ! Le déploiement est maintenant 3x plus rapide. Voici les leçons apprises… 🚀',
+    tags: ['DevOps', 'Kubernetes', 'Cloud'],
+    likes: 28,
+    commentsCount: 9,
+    shares: 6,
+    liked: false,
+  },
+  {
+    author: 'Julie Moreau',
+    title: 'UX Researcher',
+    time: 'Il y a 12 j',
+    text:
+      'Webinaire gratuit sur la recherche utilisateur ! Inscrivez-vous maintenant pour les dernières places disponibles. 🎯',
+    tags: ['UX', 'Formation', 'Webinaire', 'Événement'],
+    likes: 45,
+    commentsCount: 18,
+    shares: 15,
+    liked: false,
+  },
+  {
+    author: 'Marie Dubois',
+    title: 'Responsable RH • Innovate Inc',
+    time: 'Il y a 14 j',
+    text:
+      'Nous recherchons un UX Designer passionné(e) pour rejoindre notre équipe ! CDI, remote possible. Expérience en design thinking requise. Postulez dès maintenant ! 👋',
+    tags: ['Recrutement', 'UX Design', 'Remote', "Offre d'emploi"],
+    likes: 18,
+    commentsCount: 6,
+    shares: 22,
+    liked: false,
+  },
+  {
+    author: 'Lucas Bernard',
+    title: 'Product Manager',
+    time: 'Il y a 16 j',
+    text: '',
+    tags: ['Agilité', 'Management', 'Productivité'],
+    isPoll: true,
+    poll: {
+      question: 'Quelle méthodologie agile préférez-vous pour gérer vos projets ?',
+      options: ['Scrum', 'Kanban', 'Lean', 'Autre'],
+    },
+    likes: 12,
+    commentsCount: 23,
+    shares: 2,
+    liked: false,
+  },
+  {
     author: 'Sophie Laurent',
     title: 'Cheffe de projet digital • TechCorp',
     time: 'Il y a 2h',
