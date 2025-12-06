@@ -3,10 +3,13 @@ import { setComponentTemplate } from '@ember/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { hbs } from 'ember-cli-htmlbars';
+import { scheduleOnce } from '@ember/runloop';
 import AppSidebar from './app-sidebar';
 
 class MessagesPage extends Component {
   @tracked isOptionsOpen = false;
+  @tracked messageDraft = '';
+  chatThreadElement = null;
 
   conversations = [
     { name: 'Marie Dubois', preview: 'Super, merci pour ton aide !', time: '10:32', unread: 2, avatar: 'https://images.unsplash.com/photo-1629507208649-70919ca33793?w=80', active: true },
@@ -16,7 +19,7 @@ class MessagesPage extends Component {
     { name: 'Emma Petit', preview: 'Tu es disponible pour un call ?', time: 'Lun', unread: 1, avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80' },
   ];
 
-  messages = [
+  @tracked messages = [
     { author: 'Marie Dubois', time: '10:15', text: "Salut ! Tu as eu le temps de regarder le projet ?", side: 'left' },
     { author: 'Moi', time: '10:18', text: "Oui, j'ai jeté un œil. C'est vraiment bien fait !", side: 'right' },
     { author: 'Moi', time: '10:18', text: "J'ai quelques suggestions pour améliorer les performances", side: 'right' },
@@ -24,6 +27,11 @@ class MessagesPage extends Component {
     { author: 'Moi', time: '10:22', text: "On pourrait optimiser les requêtes et ajouter du cache", side: 'right' },
     { author: 'Marie Dubois', time: '10:32', text: 'Super, merci pour ton aide !', side: 'left' },
   ];
+
+  constructor(owner, args) {
+    super(owner, args);
+    scheduleOnce('afterRender', this, this.scrollThreadToBottom);
+  }
 
   @action openConversationOptions() {
     this.isOptionsOpen = true;
@@ -35,6 +43,52 @@ class MessagesPage extends Component {
 
   @action stopModalClick(event) {
     event.stopPropagation();
+  }
+
+  @action updateDraft(event) {
+    this.messageDraft = event.target.value;
+  }
+
+  @action sendMessage() {
+    let text = this.messageDraft.trim();
+    if (!text) {
+      return;
+    }
+
+    let now = new Date();
+    let time = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+    this.messages = [
+      ...this.messages,
+      {
+        author: 'Moi',
+        time,
+        text,
+        side: 'right',
+      },
+    ];
+
+    this.messageDraft = '';
+    this.scrollThreadToBottom();
+  }
+
+  @action handleInputKey(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.sendMessage();
+    }
+  }
+
+  scrollThreadToBottom() {
+    if (!this.chatThreadElement) {
+      this.chatThreadElement = document.querySelector('.chat-thread');
+    }
+
+    if (!this.chatThreadElement) return;
+
+    requestAnimationFrame(() => {
+      this.chatThreadElement.scrollTop = this.chatThreadElement.scrollHeight;
+    });
   }
 }
 
@@ -139,8 +193,14 @@ export default setComponentTemplate(
                   </svg>
                 </button>
               </div>
-              <input type="text" placeholder="Tapez votre message..." />
-              <button type="button" class="send-btn" aria-label="Envoyer le message">
+              <input
+                type="text"
+                placeholder="Tapez votre message..."
+                value={{this.messageDraft}}
+                {{on "input" this.updateDraft}}
+                {{on "keydown" this.handleInputKey}}
+              />
+              <button type="button" class="send-btn" aria-label="Envoyer le message" {{on "click" this.sendMessage}}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M4 4l16 8-16 8 4.5-8L4 4Zm4.5 8H20" />
