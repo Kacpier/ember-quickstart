@@ -1,13 +1,38 @@
 import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { setComponentTemplate } from '@ember/component';
 import { hbs } from 'ember-cli-htmlbars';
 import AppSidebar from './app-sidebar';
 
 class DashboardPage extends Component {
+  @service router;
+
   statConnections = 247;
   statTasks = 3;
   statEvents = 5;
   statMessages = 8;
+
+  @action goToFeatured() {
+    this.router.transitionTo('featured');
+  }
+
+  @action goToConnections() {
+    this.router.transitionTo('profiles');
+  }
+
+  @action goToMessages() {
+    this.router.transitionTo('messages');
+  }
+
+  // Pas de page calendrier pour l'instant, on reste sur le tableau de bord
+  @action goToCalendar() {
+    this.router.transitionTo('dashboard');
+  }
+
+  @action goToTasks() {
+    this.router.transitionTo('tasks');
+  }
 
   featuredPosts = [
     {
@@ -104,7 +129,7 @@ export default setComponentTemplate(
               <p class="dash-card-title">À la une</p>
               <div class="dash-card-actions">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="icon-sm"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l1 9h12l1-9h2"/></svg>
-                <button class="link-btn" type="button">Voir tout</button>
+                <button class="link-btn" type="button" {{on "click" this.goToFeatured}}>Voir tout</button>
               </div>
             </header>
             <div class="feed">
@@ -129,7 +154,7 @@ export default setComponentTemplate(
               <p class="dash-card-title">Nouvelles connexions</p>
               <div class="dash-card-actions">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="icon-sm"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M7 20H2v-2a4 4 0 014-4h1m8-6a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                <button class="link-btn" type="button">Voir tout</button>
+                <button class="link-btn" type="button" {{on "click" this.goToConnections}}>Voir tout</button>
               </div>
             </header>
             <div class="connections-list">
@@ -142,7 +167,7 @@ export default setComponentTemplate(
                       <p class="feed-time">{{person.role}}</p>
                     </div>
                   </div>
-                  <button class="chip-btn" type="button">Message</button>
+                  <button class="chip-btn" type="button" {{on "click" this.goToMessages}}>Message</button>
                 </div>
               {{/each}}
             </div>
@@ -151,7 +176,7 @@ export default setComponentTemplate(
           <article class="dash-card">
             <header class="dash-card-header">
               <p class="dash-card-title">Événements à venir</p>
-              <button class="link-btn" type="button">Calendrier</button>
+              <button class="link-btn" type="button" {{on "click" this.goToCalendar}}>Calendrier</button>
             </header>
             <ul class="list-simple">
               {{#each this.upcomingEvents as |event|}}
@@ -168,7 +193,7 @@ export default setComponentTemplate(
           <article class="dash-card">
             <header class="dash-card-header">
               <p class="dash-card-title">Tâches récentes</p>
-              <button class="link-btn" type="button">Voir toutes</button>
+              <button class="link-btn" type="button" {{on "click" this.goToTasks}}>Voir toutes</button>
             </header>
             <ul class="list-simple">
               {{#each this.recentTasks as |task|}}
