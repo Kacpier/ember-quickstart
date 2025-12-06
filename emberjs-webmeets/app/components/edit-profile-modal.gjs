@@ -6,7 +6,7 @@ import { on } from '@ember/modifier';
     <div class="modal-window">
       <header class="modal-header">
         <div>
-          <p class="modal-label">Visibilité LinkedIn</p>
+          <p></p>
           <h2>Modifier le profil</h2>
           <p class="modal-subtitle">
             Mettez à jour vos infos visibles par vos contacts
