@@ -1,34 +1,30 @@
 # IHM Marisela FLORES HERNANDEZ et Kacper Zabkowski
 
+Projet d'interface (IHM) construit avec Ember.js. 
+Ce fichier rassemble les liens clés et la marche à suivre pour installer, lancer, tester et livrer l'application.
 
-# Lien vers nos documents 
+## Ressources
 
-https://docs.google.com/document/d/1nJB84oapwR5M13cQM07XF_AiiMgIgV_KvrfzG2ONYTM/edit?tab=t.0
-
-
-# Lien vers notre figma 
-
-https://file-narrow-31734414.figma.site/
-
-
-# emberjs-webmeets
-
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+- Dossier de conception et notes : https://docs.google.com/document/d/1nJB84oapwR5M13cQM07XF_AiiMgIgV_KvrfzG2ONYTM/edit?tab=t.0
+- Maquettes Figma : https://file-narrow-31734414.figma.site/
 
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
 
 - [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/) (with npm)
+- [Node.js](https://nodejs.org/) (>= 20 avec npm)
 - [Google Chrome](https://google.com/chrome/)
 
 ## Installation
 
-- `git clone <repository-url>` this repository
-- `cd emberjs-webmeets`
-- `npm install`
+```bash
+git clone <repository-url>
+cd emberjs-quickstart
+npm install
+```
+
+La CLI Ember est installée en local via `npm install` ; inutile d'ajouter `ember-cli` globalement. Utilisez `npm exec ember <commande>` pour les générateurs ou les tests.
 
 ## Running / Development
 
@@ -38,7 +34,7 @@ You will need the following things properly installed on your computer.
 
 ### Code Generators
 
-Make use of the many generators for code, try `npm exec ember help generate` for more details
+Make use of the many generators for code, try `npm exec ember help generate` for more details.
 
 ### Running Tests
 
@@ -56,7 +52,7 @@ Make use of the many generators for code, try `npm exec ember help generate` for
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+Specify what it takes to deploy your app (environnement cible, variables, etc.).
 
 ## Further Reading / Useful Links
 
