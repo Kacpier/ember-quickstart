@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Webmeets logo">
+  <defs>
+  <!--creation logo site web -->
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#g)"/>
+  <path d="M12 23 15 41 22 23 29 41 32 23" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M35 41 37 23 44 41 51 23 54 41" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+</svg>
+

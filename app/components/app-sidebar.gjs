@@ -29,7 +29,7 @@ export default setComponentTemplate(
     <aside class="sidebar" ...attributes>
       <div class="sidebar-header">
         <div class="login-icon">
-          WM
+          <img src="/logo.svg" alt="Logo WebMeets" class="sidebar-logo-img" />
         </div>
         <div class="sidebar-title-box">
           <h2 class="sidebar-app-title">WebMeets</h2>

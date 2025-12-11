@@ -58,7 +58,7 @@ export default setComponentTemplate(
     <div class="landing">
       <div class="login-card">
         <div class="login-icon">
-          WM
+           <img src="/logo.svg" alt="Logo WebMeets" class="sidebar-logo-img" />
         </div>
 
         <h1 class="app-title">WebMeets</h1>
@@ -105,25 +105,6 @@ export default setComponentTemplate(
             Demo – Entrez n'importe quel nom et email
           </p>
         </form>
-
-        <section class="demo-accounts">
-          <h2>Comptes de démonstration :</h2>
-
-          <ul>
-            <li>
-              <strong>Sophie Laurent</strong><br />
-              <span>Cheffe de projet digital</span>
-            </li>
-            <li>
-              <strong>Thomas Martin</strong><br />
-              <span>Développeur Full Stack</span>
-            </li>
-            <li>
-              <strong>Marie Dubois</strong><br />
-              <span>Designer UX/UI</span>
-            </li>
-          </ul>
-        </section>
       </div>
     </div>
   `,
