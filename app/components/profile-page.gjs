@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { setComponentTemplate } from '@ember/component';
 import { hbs } from 'ember-cli-htmlbars';
+import { service } from '@ember/service';
 import AppSidebar from './app-sidebar';
 import EditProfileModal from './edit-profile-modal';
 
@@ -21,6 +22,8 @@ const DEFAULT_PROFILE = {
 };
 
 class ProfilePage extends Component {
+  @service currentUser;
+
   @tracked profile = { ...DEFAULT_PROFILE };
   @tracked editDraft = { ...DEFAULT_PROFILE };
   @tracked isEditing = false;
@@ -54,7 +57,11 @@ class ProfilePage extends Component {
   @tracked sectionDraft = null;
 
   @action startEdit() {
-    this.editDraft = { ...this.profile };
+    this.editDraft = {
+      ...this.profile,
+      name: this.displayName,
+      email: this.displayEmail,
+    };
     this.isEditing = true;
   }
 
@@ -68,7 +75,19 @@ class ProfilePage extends Component {
 
   @action saveProfile() {
     this.profile = { ...this.profile, ...this.editDraft };
+    this.currentUser.setUser({
+      name: this.profile.name,
+      email: this.profile.email,
+    });
     this.isEditing = false;
+  }
+
+  get displayName() {
+    return this.currentUser.name || this.profile.name;
+  }
+
+  get displayEmail() {
+    return this.currentUser.email || this.profile.email;
   }
 
   get isExperienceEditing() {
@@ -232,11 +251,11 @@ export default setComponentTemplate(
 
           <div class="profile-card">
             <div class="avatar-container">
-              <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=200" class="avatar-big" alt="Sophie Laurent" />
+              <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=200" class="avatar-big" alt={{this.displayName}} />
             </div>
 
             <div class="profile-info">
-              <h2 class="name">{{this.profile.name}}</h2>
+              <h2 class="name">{{this.displayName}}</h2>
               <p class="role">{{this.profile.headline}}</p>
               <p class="meta">{{this.profile.status}} · {{this.profile.location}}</p>
               <button class="edit-btn" type="button" {{on "click" this.startEdit}}>Modifier le profil</button>
@@ -387,7 +406,7 @@ export default setComponentTemplate(
                   <h3 class="card-title">Informations de contact</h3>
                 </div>
                 <ul class="contact-list">
-                  <li>{{this.profile.email}}</li>
+                  <li>{{this.displayEmail}}</li>
                   <li>{{this.profile.phone}}</li>
                   <li>{{this.profile.website}}</li>
                   <li>{{this.profile.linkedin}}</li>

@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { setComponentTemplate } from '@ember/component';
 import { hbs } from 'ember-cli-htmlbars';
+import { service } from '@ember/service';
 import AppSidebar from './app-sidebar';
 
 const DEFAULT_POSTS = [
@@ -107,6 +108,8 @@ const DEFAULT_POSTS = [
 ];
 
 class FeaturedPage extends Component {
+  @service currentUser;
+
   tabs = [
     'Tous',
     'Tendances',
@@ -125,6 +128,14 @@ class FeaturedPage extends Component {
   @tracked pollQuestion = '';
   @tracked pollOptions = ['', ''];
   @tracked posts = DEFAULT_POSTS.map((post, index) => this.normalizePost(post, index));
+
+  get displayName() {
+    return this.currentUser.name || 'Vous';
+  }
+
+  get displayTitle() {
+    return this.currentUser.email ? `${this.currentUser.email} • WebMeets` : 'Membre WebMeets';
+  }
 
   normalizePost(post, index) {
     let isPoll = Boolean(post.isPoll);
@@ -221,8 +232,8 @@ class FeaturedPage extends Component {
       let newPost = this.normalizePost(
         {
           id: `post-${this.postIdCounter++}`,
-          author: 'Sophie Laurent',
-          title: 'Cheffe de projet digital • WebMeets',
+          author: this.displayName,
+          title: this.displayTitle,
           time: 'À l’instant',
           text: '',
           tags: ['Sondage'],
@@ -250,8 +261,8 @@ class FeaturedPage extends Component {
     let newPost = this.normalizePost(
       {
         id: `post-${this.postIdCounter++}`,
-        author: 'Sophie Laurent',
-        title: 'Cheffe de projet digital • WebMeets',
+        author: this.displayName,
+        title: this.displayTitle,
         time: 'À l’instant',
         text,
         tags: ['Nouveau'],
@@ -317,7 +328,7 @@ class FeaturedPage extends Component {
       let text = (post.draftComment ?? '').trim();
       if (!text) return post;
 
-      let newComment = { author: 'Vous', text, time: 'À l’instant' };
+      let newComment = { author: this.displayName, text, time: 'À l’instant' };
       let comments = [...(post.comments ?? []), newComment];
       let commentsCount = comments.length;
 
@@ -360,7 +371,7 @@ export default setComponentTemplate(
 
         <section class="post-box">
           <div class="post-box-avatar">
-            <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=200" alt="Sophie Laurent" />
+            <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=200" alt={{this.displayName}} />
           </div>
           <div class="post-box-body">
             {{#if this.isPoll}}

@@ -7,9 +7,19 @@ import { LinkTo } from '@ember/routing';
 
 class AppSidebar extends Component {
   @service router;
+  @service currentUser;
+
+  get displayName() {
+    return this.currentUser.name || 'Sophie Laurent';
+  }
+
+  get displaySubtitle() {
+    return this.currentUser.email || 'Cheffe de projet digital';
+  }
 
   @action
   logout() {
+    this.currentUser.clear();
     this.router.transitionTo('index');
   }
 }
@@ -28,10 +38,10 @@ export default setComponentTemplate(
       </div>
 
       <div class="sidebar-profile">
-        <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=200" class="sidebar-avatar" alt="Sophie Laurent" />
+        <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=200" class="sidebar-avatar" alt={{this.displayName}} />
         <div>
-          <div class="sidebar-profile-name">Sophie Laurent</div>
-          <div class="sidebar-profile-role">Cheffe de projet digital</div>
+          <div class="sidebar-profile-name">{{this.displayName}}</div>
+          <div class="sidebar-profile-role">{{this.displaySubtitle}}</div>
         </div>
       </div>
 

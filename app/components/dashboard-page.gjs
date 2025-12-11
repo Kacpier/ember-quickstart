@@ -7,6 +7,7 @@ import AppSidebar from './app-sidebar';
 
 class DashboardPage extends Component {
   @service router;
+  @service currentUser;
 
   statConnections = 247;
   statTasks = 3;
@@ -66,6 +67,10 @@ class DashboardPage extends Component {
     { title: 'Préparer démo client', status: 'Planifiée' },
     { title: 'Tests QA sprint 12', status: 'En cours' },
   ];
+
+  get greetingName() {
+    return this.currentUser.name || 'Sophie';
+  }
 }
 
 export default setComponentTemplate(
@@ -76,7 +81,7 @@ export default setComponentTemplate(
       <main class="dashboard-main">
         <header class="dash-hero">
           <div>
-            <p class="dash-hello">Bonjour, Sophie 👋</p>
+            <p class="dash-hello">Bonjour, {{this.greetingName}} 👋</p>
             <p class="dash-sub">Voici un aperçu de votre activité</p>
           </div>
         </header>
