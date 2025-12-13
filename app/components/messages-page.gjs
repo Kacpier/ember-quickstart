@@ -12,7 +12,7 @@ class MessagesPage extends Component {
   chatThreadElement = null;
 
   conversations = [
-    { name: 'Marie Dubois', preview: 'Super, merci pour ton aide !', time: '10:32', unread: 2, avatar: 'https://images.unsplash.com/photo-1629507208649-70919ca33793?w=80', active: true },
+    { name: 'Marie Dubois', preview: 'Super, merci pour ton aide !', time: '10:32', unread: 2, avatar: 'https://images.unsplash.com/photo-1522199899308-2eef382e2158?w=100', active: true },
     { name: 'Thomas Martin', preview: 'On se fait une réunion demain ?', time: '09:15', unread: 1, avatar: 'https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?w=80' },
     { name: 'Sophie Laurent', preview: "J'ai envoyé les documents", time: 'Hier', unread: 0, avatar: 'https://images.unsplash.com/photo-1550525811-e5869dd03032?w=80' },
     { name: 'Lucas Bernard', preview: 'Parfait, à plus tard !', time: 'Hier', unread: 0, avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=80' },
@@ -137,7 +137,7 @@ export default setComponentTemplate(
           <div class="chat-panel">
             <header class="chat-header">
               <div class="chat-user">
-                <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=80" alt="Marie Dubois" />
+                <img src="https://images.unsplash.com/photo-1522199899308-2eef382e2158?w=100" alt="Marie Dubois" />
                 <div>
                   <p class="chat-name">Marie Dubois</p>
                   <p class="chat-status">En ligne</p>

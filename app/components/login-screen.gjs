@@ -39,7 +39,7 @@ class LoginScreen extends Component {
     event?.stopPropagation?.();
 
     if (this.disableSubmit) {
-      this.errorMessage = 'Ingresa tu nombre y email para continuar.';
+      this.errorMessage = 'Veuillez remplir tous les champs.';
       return;
     }
 

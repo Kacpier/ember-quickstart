@@ -8,11 +8,11 @@ import { LinkTo } from '@ember/routing';
         <LinkTo @route="dashboard">Tableau de bord</LinkTo>
         <LinkTo @route="featured">À la une</LinkTo>
         <LinkTo @route="profiles">Perfiles</LinkTo>
-        <LinkTo @route="index">Cerrar Sesion</LinkTo>
+        <LinkTo @route="index">Deconnexion</LinkTo>
       </nav>
     </header>
   {{/if}}
-  
+
 
   <div class="app-root">
     {{outlet}}

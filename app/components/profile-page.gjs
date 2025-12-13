@@ -251,7 +251,7 @@ export default setComponentTemplate(
 
           <div class="profile-card">
             <div class="avatar-container">
-              <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=200" class="avatar-big" alt={{this.displayName}} />
+              <img src="https://images.unsplash.com/photo-1550525811-e5869dd03032?w=80" class="avatar-big" alt={{this.displayName}} />
             </div>
 
             <div class="profile-info">

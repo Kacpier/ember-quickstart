@@ -40,8 +40,7 @@ export default class IndexController extends Controller {
     event?.stopPropagation?.();
 
     if (this.disableSubmit) {
-      this.errorMessage = 'Ingresa tu nombre y email para continuar.';
-      return;
+      this.errorMessage = 'Veuillez remplir tous les champs.';
     }
 
     this.currentUser.setUser({

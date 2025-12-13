@@ -6,12 +6,12 @@ import { LinkTo } from '@ember/routing';
     <h3>{{@model.headline}}</h3>
     <p>{{@model.location}}</p>
 
-    <h4>Acerca de</h4>
+    <h4>About</h4>
     <p>{{@model.about}}</p>
 
     <p>
       <LinkTo @route="profiles">
-      ← Volver a la lista de perfiles
+      ← Retourner a la list de profiles
       </LinkTo>
     </p>
   </article>
