@@ -13,7 +13,7 @@ class MessagesPage extends Component {
   chatThreadElement = null;
 
   conversations = [
-    { name: 'Marie Dubois', preview: 'Super, merci pour ton aide !', time: '10:32', unread: 2, avatar: 'https://images.unsplash.com/photo-1522199899308-2eef382e2158?w=100', active: true },
+    { name: 'Claire Bernard', preview: 'Super, merci pour ton aide !', time: '10:32', unread: 2, avatar: 'https://images.unsplash.com/photo-1522199899308-2eef382e2158?w=100', active: true },
     { name: 'Thomas Martin', preview: 'On se fait une réunion demain ?', time: '09:15', unread: 1, avatar: 'https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?w=80' },
     { name: 'Sophie Laurent', preview: "J'ai envoyé les documents", time: 'Hier', unread: 0, avatar: 'https://images.unsplash.com/photo-1550525811-e5869dd03032?w=80' },
     { name: 'Lucas Bernard', preview: 'Parfait, à plus tard !', time: 'Hier', unread: 0, avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=80' },
@@ -21,12 +21,12 @@ class MessagesPage extends Component {
   ];
 
   @tracked messages = [
-    { author: 'Marie Dubois', time: '10:15', text: "Salut ! Tu as eu le temps de regarder le projet ?", side: 'left' },
+    { author: 'Claire Bernard', time: '10:15', text: "Salut ! Tu as eu le temps de regarder le projet ?", side: 'left' },
     { author: 'Moi', time: '10:18', text: "Oui, j'ai jeté un œil. C'est vraiment bien fait !", side: 'right' },
     { author: 'Moi', time: '10:18', text: "J'ai quelques suggestions pour améliorer les performances", side: 'right' },
-    { author: 'Marie Dubois', time: '10:20', text: 'Génial ! Je suis tout ouïe 👂', side: 'left' },
+    { author: 'Claire Bernard', time: '10:20', text: 'Génial ! Je suis tout ouïe 👂', side: 'left' },
     { author: 'Moi', time: '10:22', text: "On pourrait optimiser les requêtes et ajouter du cache", side: 'right' },
-    { author: 'Marie Dubois', time: '10:32', text: 'Super, merci pour ton aide !', side: 'left' },
+    { author: 'Claire Bernard', time: '10:32', text: 'Super, merci pour ton aide !', side: 'left' },
   ];
 
   constructor(owner, args) {
@@ -157,9 +157,9 @@ export default setComponentTemplate(
           <div class="chat-panel">
             <header class="chat-header">
               <div class="chat-user">
-                <img src="https://images.unsplash.com/photo-1522199899308-2eef382e2158?w=100" alt="Marie Dubois" />
+                <img src="https://images.unsplash.com/photo-1522199899308-2eef382e2158?w=100" alt="Claire Bernard" />
                 <div>
-                  <p class="chat-name">Marie Dubois</p>
+                  <p class="chat-name">Claire Bernard</p>
                   <p class="chat-status">En ligne</p>
                 </div>
               </div>
