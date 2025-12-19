@@ -135,7 +135,6 @@ export default setComponentTemplate(
             <header class="dash-card-header">
               <p class="dash-card-title">À la une</p>
               <div class="dash-card-actions">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="icon-sm"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l1 9h12l1-9h2"/></svg>
                 <button class="link-btn" type="button" {{on "click" this.goToFeatured}}>Voir tout</button>
               </div>
             </header>
@@ -160,9 +159,7 @@ export default setComponentTemplate(
             <header class="dash-card-header">
               <p class="dash-card-title">Nouvelles connexions</p>
               <div class="dash-card-actions">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="icon-sm">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M7 20H2v-2a4 4 0 014-4h1m8-6a4 4 0 11-8 0 4 4 0 018 0z"/>
-                </svg>
                 <button class="link-btn" type="button" {{on "click" this.goToConnections}}>Voir tout</button>
               </div>
             </header>

@@ -9,6 +9,7 @@ import AppSidebar from './app-sidebar';
 class MessagesPage extends Component {
   @tracked isOptionsOpen = false;
   @tracked messageDraft = '';
+  @tracked searchQuery = '';
   chatThreadElement = null;
 
   conversations = [
@@ -33,6 +34,16 @@ class MessagesPage extends Component {
     scheduleOnce('afterRender', this, this.scrollThreadToBottom);
   }
 
+  get filteredConversations() {
+    let query = this.searchQuery.trim().toLowerCase();
+    if (!query) return this.conversations;
+
+    return this.conversations.filter((conv) => {
+      let haystack = `${conv.name} ${conv.preview}`.toLowerCase();
+      return haystack.includes(query);
+    });
+  }
+
   @action openConversationOptions() {
     this.isOptionsOpen = true;
   }
@@ -43,6 +54,10 @@ class MessagesPage extends Component {
 
   @action stopModalClick(event) {
     event.stopPropagation();
+  }
+
+  @action updateSearch(event) {
+    this.searchQuery = event.target.value;
   }
 
   @action updateDraft(event) {
@@ -110,11 +125,16 @@ export default setComponentTemplate(
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1 0 5 5a7.5 7.5 0 0 0 11.65 11.65Z" />
                 </svg>
-                <input type="text" placeholder="Rechercher une conversation..." />
+                <input
+                  type="text"
+                  placeholder="Rechercher une conversation..."
+                  value={{this.searchQuery}}
+                  {{on "input" this.updateSearch}}
+                />
               </div>
             </div>
             <ul>
-              {{#each this.conversations as |conv|}}
+              {{#each this.filteredConversations as |conv|}}
                 <li class="{{if conv.active "conv-item active" "conv-item"}}">
                   <div class="conv-left">
                     <img src="{{conv.avatar}}" alt="{{conv.name}}" />
