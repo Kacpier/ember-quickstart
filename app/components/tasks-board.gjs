@@ -3,101 +3,134 @@ import { setComponentTemplate } from '@ember/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { hbs } from 'ember-cli-htmlbars';
+import { connections as networkConnections } from '../data/connections';
 import AppSidebar from './app-sidebar';
+
+const CREATOR_AVATAR = 'https://images.unsplash.com/photo-1550525811-e5869dd03032?w=80';
+
+const EMPTY_FORM = {
+  title: '',
+  desc: '',
+  column: 'À faire',
+  priority: 'Moyenne',
+  date: "Aujourd'hui",
+  assignees: [],
+  assigneeInput: '',
+};
+
+const DEFAULT_TASKS = {
+  'À faire': [
+    {
+      priority: 'Haute',
+      priorityClass: 'haute',
+      title: 'Conception UI du dashboard',
+      desc: 'Créer les maquettes pour le nouveau tableau de bord',
+      date: '15 Nov',
+      comments: 3,
+      files: 2,
+      assignees: [networkConnections[0]],
+    },
+    {
+      priority: 'Moyenne',
+      priorityClass: 'moyenne',
+      title: 'Rédiger documentation API',
+      desc: 'Documenter les nouveaux endpoints REST',
+      date: '18 Nov',
+      comments: 0,
+      files: 1,
+      assignees: [networkConnections[1]],
+    },
+  ],
+  'En cours': [
+    {
+      priority: 'Haute',
+      priorityClass: 'haute',
+      title: 'Développement composant React',
+      desc: 'Créer le composant de notification réutilisable',
+      date: '14 Nov',
+      comments: 5,
+      files: 1,
+      assignees: [networkConnections[2]],
+    },
+    {
+      priority: 'Moyenne',
+      priorityClass: 'moyenne',
+      title: 'Tests unitaires backend',
+      desc: 'Augmenter la couverture de tests à 80%',
+      date: '16 Nov',
+      comments: 2,
+      files: 0,
+      assignees: [],
+    },
+    {
+      priority: 'Basse',
+      priorityClass: 'basse',
+      title: 'Optimisation performances',
+      desc: 'Améliorer le temps de chargement des pages',
+      date: '19 Nov',
+      comments: 1,
+      files: 0,
+      assignees: [networkConnections[3]],
+    },
+  ],
+  'En révision': [
+    {
+      priority: 'Haute',
+      priorityClass: 'haute',
+      title: 'Code review auth',
+      desc: "Revoir l'implémentation des règles d'authentification",
+      date: '17 Nov',
+      comments: 4,
+      files: 1,
+      assignees: [],
+    },
+    {
+      priority: 'Moyenne',
+      priorityClass: 'moyenne',
+      title: 'Contenus onboarding',
+      desc: "Valider les textes d'onboarding utilisateur",
+      date: '18 Nov',
+      comments: 1,
+      files: 0,
+      assignees: [networkConnections[4]],
+    },
+  ],
+  'Terminées': [
+    {
+      priority: 'Basse',
+      priorityClass: 'basse',
+      title: 'Nettoyage backlog',
+      desc: 'Archiver les anciens tickets résolus',
+      date: '12 Nov',
+      comments: 0,
+      files: 0,
+      assignees: [],
+    },
+  ],
+};
 
 class TasksBoard extends Component {
   @tracked showModal = false;
+  @tracked assigneeQuery = '';
+  @tracked showAssigneeSuggestions = false;
 
-  @tracked form = {
-    title: '',
-    desc: '',
-    column: 'À faire',
-    priority: 'Moyenne',
-    date: "Aujourd'hui",
-  };
+  @tracked form = { ...EMPTY_FORM };
 
-  @tracked tasks = {
-    'À faire': [
-      {
-        priority: 'Haute',
-        priorityClass: 'haute',
-        title: 'Conception UI du dashboard',
-        desc: 'Créer les maquettes pour le nouveau tableau de bord',
-        date: '15 Nov',
-        comments: 3,
-        files: 2,
-      },
-      {
-        priority: 'Moyenne',
-        priorityClass: 'moyenne',
-        title: 'Rédiger documentation API',
-        desc: 'Documenter les nouveaux endpoints REST',
-        date: '18 Nov',
-        comments: 0,
-        files: 1,
-      },
-    ],
-    'En cours': [
-      {
-        priority: 'Haute',
-        priorityClass: 'haute',
-        title: 'Développement composant React',
-        desc: 'Créer le composant de notification réutilisable',
-        date: '14 Nov',
-        comments: 5,
-        files: 1,
-      },
-      {
-        priority: 'Moyenne',
-        priorityClass: 'moyenne',
-        title: 'Tests unitaires backend',
-        desc: 'Augmenter la couverture de tests à 80%',
-        date: '16 Nov',
-        comments: 2,
-        files: 0,
-      },
-      {
-        priority: 'Basse',
-        priorityClass: 'basse',
-        title: 'Optimisation performances',
-        desc: 'Améliorer le temps de chargement des pages',
-        date: '19 Nov',
-        comments: 1,
-        files: 0,
-      },
-    ],
-    'En révision': [
-      {
-        priority: 'Haute',
-        priorityClass: 'haute',
-        title: 'Code review auth',
-        desc: "Revoir l'implémentation des règles d'authentification",
-        date: '17 Nov',
-        comments: 4,
-        files: 1,
-      },
-      {
-        priority: 'Moyenne',
-        priorityClass: 'moyenne',
-        title: 'Contenus onboarding',
-        desc: "Valider les textes d'onboarding utilisateur",
-        date: '18 Nov',
-        comments: 1,
-        files: 0,
-      },
-    ],
-    'Terminées': [
-      {
-        priority: 'Basse',
-        priorityClass: 'basse',
-        title: 'Nettoyage backlog',
-        desc: 'Archiver les anciens tickets résolus',
-        date: '12 Nov',
-        comments: 0,
-        files: 0,
-      },
-    ],
-  };
+  @tracked tasks = DEFAULT_TASKS;
+
+  creatorAvatar = CREATOR_AVATAR;
+
+  get filteredAssignees() {
+    let query = this.assigneeQuery.trim();
+    let pool = networkConnections.filter((contact) => !this.form.assignees.some((a) => a.id === contact.id));
+    if (!query) return pool;
+
+    let lower = query.toLowerCase();
+    return pool.filter((contact) => {
+      let haystack = `${contact.name} ${contact.title}`.toLowerCase();
+      return haystack.includes(lower);
+    });
+  }
 
   get columns() {
     return [
@@ -109,18 +142,15 @@ class TasksBoard extends Component {
   }
 
   @action openModal() {
-    this.form = {
-      title: '',
-      desc: '',
-      column: 'À faire',
-      priority: 'Moyenne',
-      date: "Aujourd'hui",
-    };
+    this.form = { ...EMPTY_FORM };
+    this.assigneeQuery = '';
+    this.showAssigneeSuggestions = false;
     this.showModal = true;
   }
 
   @action closeModal() {
     this.showModal = false;
+    this.showAssigneeSuggestions = false;
   }
 
   @action stopPropagation(event) {
@@ -129,6 +159,34 @@ class TasksBoard extends Component {
 
   @action updateField(field, event) {
     this.form = { ...this.form, [field]: event.target.value };
+  }
+
+  @action handleAssigneeInput(event) {
+    let value = event.target.value || '';
+    let atIndex = value.indexOf('@');
+    let query = atIndex >= 0 ? value.slice(atIndex + 1).trim() : '';
+
+    let nextForm = { ...this.form, assigneeInput: value };
+
+    if (!value.includes('@')) {
+      nextForm.assignees = [...this.form.assignees];
+      this.assigneeQuery = '';
+      this.showAssigneeSuggestions = false;
+    } else {
+      this.assigneeQuery = query.toLowerCase();
+      this.showAssigneeSuggestions = true;
+    }
+
+    this.form = nextForm;
+  }
+
+  @action selectAssignee(contact) {
+    let already = this.form.assignees.some((a) => a.id === contact.id);
+    let nextAssignees = already ? this.form.assignees : [...this.form.assignees, contact];
+
+    this.form = { ...this.form, assignees: nextAssignees, assigneeInput: '' };
+    this.assigneeQuery = '';
+    this.showAssigneeSuggestions = false;
   }
 
   @action submitTask(event) {
@@ -154,6 +212,7 @@ class TasksBoard extends Component {
       date: this.form.date || "Aujourd'hui",
       comments: 0,
       files: 0,
+      assignees: this.form.assignees,
     };
 
     const updatedColumnTasks = [...(this.tasks[column] || []), nextTask];
@@ -198,7 +257,15 @@ export default setComponentTemplate(
                     <p class="task-desc">{{task.desc}}</p>
                     <div class="task-meta">
                       <div class="meta-left">
-                        <img src="https://images.unsplash.com/photo-1550525811-e5869dd03032?w=80" alt="avatar" />
+                        <div class="assignee-avatars">
+                          {{#if task.assignees.length}}
+                            {{#each task.assignees as |person|}}
+                              <img src={{person.avatar}} alt={{person.name}} />
+                            {{/each}}
+                          {{else}}
+                            <img src={{this.creatorAvatar}} alt="Créateur" />
+                          {{/if}}
+                        </div>
                         <span class="meta-date">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z"/></svg>
                           {{task.date}}
@@ -246,6 +313,44 @@ export default setComponentTemplate(
                 <div class="modal-field">
                   <label for="task-desc">Description</label>
                   <textarea id="task-desc" rows="3" value={{this.form.desc}} {{on "input" (fn this.updateField "desc")}} placeholder="Détails rapides"></textarea>
+                </div>
+
+                <div class="modal-field assignee-field">
+                  <label for="task-assignee">Assigner à</label>
+                  <div class="assignee-input">
+                    {{#if this.form.assignees.length}}
+                      <div class="assignee-selected">
+                        {{#each this.form.assignees as |person|}}
+                          <span class="assignee-chip">{{person.name}}</span>
+                        {{/each}}
+                      </div>
+                    {{/if}}
+                    <input
+                      id="task-assignee"
+                      autocomplete="off"
+                      placeholder="Tapez @ pour chercher un contact"
+                      value={{this.form.assigneeInput}}
+                      {{on "input" this.handleAssigneeInput}}
+                    />
+
+                    {{#if this.showAssigneeSuggestions}}
+                      {{#if this.filteredAssignees.length}}
+                        <ul class="assignee-list">
+                          {{#each this.filteredAssignees as |contact|}}
+                            <li class="assignee-item" {{on "click" (fn this.selectAssignee contact)}}>
+                              <img src={{contact.avatar}} alt={{contact.name}} />
+                              <div>
+                                <p class="assignee-name">{{contact.name}}</p>
+                                <p class="assignee-meta">{{contact.title}}</p>
+                              </div>
+                            </li>
+                          {{/each}}
+                        </ul>
+                      {{else}}
+                        <div class="assignee-empty">Aucun contact trouvé</div>
+                      {{/if}}
+                    {{/if}}
+                  </div>
                 </div>
 
                 <div class="modal-grid">
