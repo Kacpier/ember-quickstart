@@ -20,7 +20,7 @@ class DashboardPage extends Component {
   }
 
   @action goToConnections() {
-    this.router.transitionTo('profiles');
+    this.router.transitionTo('reseau');
   }
 
   @action goToMessages() {
