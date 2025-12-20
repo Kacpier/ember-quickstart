@@ -56,6 +56,29 @@ class MessagesPage extends Component {
     event.stopPropagation();
   }
 
+  @action handleImageSelected(event) {
+    let file = event.target.files?.[0];
+    if (!file) return;
+
+    let url = URL.createObjectURL(file);
+    let now = new Date();
+    let time = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+    this.messages = [
+      ...this.messages,
+      {
+        author: 'Moi',
+        time,
+        text: '',
+        imageUrl: url,
+        side: 'right',
+      },
+    ];
+
+    event.target.value = '';
+    this.scrollThreadToBottom();
+  }
+
   @action updateSearch(event) {
     this.searchQuery = event.target.value;
   }
@@ -190,7 +213,12 @@ export default setComponentTemplate(
               {{#each this.messages as |msg|}}
                 <div class="chat-row {{msg.side}}">
                   <div class="bubble">
-                    <p>{{msg.text}}</p>
+                    {{#if msg.imageUrl}}
+                      <img class="chat-image" src={{msg.imageUrl}} alt="Image envoyée" />
+                    {{/if}}
+                    {{#if msg.text}}
+                      <p>{{msg.text}}</p>
+                    {{/if}}
                   </div>
                   <span class="bubble-time">{{msg.time}}</span>
                 </div>
@@ -199,12 +227,19 @@ export default setComponentTemplate(
 
             <footer class="chat-input">
               <div class="chat-actions">
-                <button type="button" class="chat-icon-btn" aria-label="Joindre un fichier">
+                <input
+                  id="chat-upload"
+                  type="file"
+                  accept="image/*"
+                  style="display:none;"
+                  {{on "change" this.handleImageSelected}}
+                />
+                <label for="chat-upload" class="chat-icon-btn" aria-label="Joindre un fichier">
                   <svg xmlns="http://www.w3.org/2000/svg" class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M8 12.5 15.5 5a3 3 0 1 1 4 4l-9 9a5 5 0 0 1-7-7l8-8" />
                   </svg>
-                </button>
+                </label>
                 <button type="button" class="chat-icon-btn" aria-label="Envoyer un emoji">
                   <svg xmlns="http://www.w3.org/2000/svg" class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <circle cx="12" cy="12" r="9" stroke-width="2" />
