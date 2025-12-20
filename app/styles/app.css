@@ -1056,6 +1056,22 @@ textarea {
 
 .chat-image + p { margin-top: 8px; }
 
+.bubble-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.chat-row.right .bubble-meta { justify-content: flex-end; }
+.chat-row.left .bubble-meta { justify-content: flex-start; }
+
+.read-receipt {
+  font-size: 12px;
+  color: #16a34a;
+  font-weight: 600;
+}
+
 .bubble-time { margin-top: 2px; font-size: 12px; color: var(--text-muted); }
 
 .chat-input {

@@ -10,6 +10,7 @@ class MessagesPage extends Component {
   @tracked isOptionsOpen = false;
   @tracked messageDraft = '';
   @tracked searchQuery = '';
+  @tracked readReceiptIndex = null;
   chatThreadElement = null;
 
   conversations = [
@@ -77,6 +78,7 @@ class MessagesPage extends Component {
 
     event.target.value = '';
     this.scrollThreadToBottom();
+    this.setReadReceiptForLatest();
   }
 
   @action updateSearch(event) {
@@ -108,6 +110,7 @@ class MessagesPage extends Component {
 
     this.messageDraft = '';
     this.scrollThreadToBottom();
+    this.setReadReceiptForLatest();
   }
 
   @action handleInputKey(event) {
@@ -128,6 +131,17 @@ class MessagesPage extends Component {
       this.chatThreadElement.scrollTop = this.chatThreadElement.scrollHeight;
     });
   }
+
+  @action setReadReceiptForLatest() {
+    let latestIndex = this.messages.length - 1;
+    if (latestIndex < 0) return;
+
+    setTimeout(() => {
+      this.readReceiptIndex = latestIndex;
+    }, 600);
+  }
+
+  isLastSent = (index) => index === this.readReceiptIndex;
 }
 
 export default setComponentTemplate(
@@ -210,7 +224,7 @@ export default setComponentTemplate(
             </header>
 
             <div class="chat-thread">
-              {{#each this.messages as |msg|}}
+              {{#each this.messages as |msg index|}}
                 <div class="chat-row {{msg.side}}">
                   <div class="bubble">
                     {{#if msg.imageUrl}}
@@ -220,7 +234,12 @@ export default setComponentTemplate(
                       <p>{{msg.text}}</p>
                     {{/if}}
                   </div>
-                  <span class="bubble-time">{{msg.time}}</span>
+                  <div class="bubble-meta">
+                    <span class="bubble-time">{{msg.time}}</span>
+                    {{#if (this.isLastSent index)}}
+                      <span class="read-receipt">Lu</span>
+                    {{/if}}
+                  </div>
                 </div>
               {{/each}}
             </div>
