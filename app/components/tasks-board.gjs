@@ -1,17 +1,22 @@
 import Component from '@glimmer/component';
 import { setComponentTemplate } from '@ember/component';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { hbs } from 'ember-cli-htmlbars';
 import AppSidebar from './app-sidebar';
 
 class TasksBoard extends Component {
-  columns = [
-    { title: 'À faire', count: 2, tint: 'col-grey' },
-    { title: 'En cours', count: 3, tint: 'col-blue' },
-    { title: 'En révision', count: 2, tint: 'col-yellow' },
-    { title: 'Terminées', count: 1, tint: 'col-green' },
-  ];
+  @tracked showModal = false;
 
-  tasks = {
+  @tracked form = {
+    title: '',
+    desc: '',
+    column: 'À faire',
+    priority: 'Moyenne',
+    date: "Aujourd'hui",
+  };
+
+  @tracked tasks = {
     'À faire': [
       {
         priority: 'Haute',
@@ -93,6 +98,68 @@ class TasksBoard extends Component {
       },
     ],
   };
+
+  get columns() {
+    return [
+      { title: 'À faire', count: this.tasks['À faire']?.length || 0, tint: 'col-grey' },
+      { title: 'En cours', count: this.tasks['En cours']?.length || 0, tint: 'col-blue' },
+      { title: 'En révision', count: this.tasks['En révision']?.length || 0, tint: 'col-yellow' },
+      { title: 'Terminées', count: this.tasks['Terminées']?.length || 0, tint: 'col-green' },
+    ];
+  }
+
+  @action openModal() {
+    this.form = {
+      title: '',
+      desc: '',
+      column: 'À faire',
+      priority: 'Moyenne',
+      date: "Aujourd'hui",
+    };
+    this.showModal = true;
+  }
+
+  @action closeModal() {
+    this.showModal = false;
+  }
+
+  @action stopPropagation(event) {
+    event.stopPropagation();
+  }
+
+  @action updateField(field, event) {
+    this.form = { ...this.form, [field]: event.target.value };
+  }
+
+  @action submitTask(event) {
+    event.preventDefault();
+
+    const title = this.form.title?.trim();
+    if (!title) {
+      return;
+    }
+
+    const priorityMap = {
+      Haute: 'haute',
+      Moyenne: 'moyenne',
+      Basse: 'basse',
+    };
+
+    const column = this.form.column;
+    const nextTask = {
+      priority: this.form.priority,
+      priorityClass: priorityMap[this.form.priority] || 'moyenne',
+      title,
+      desc: this.form.desc || 'À définir',
+      date: this.form.date || "Aujourd'hui",
+      comments: 0,
+      files: 0,
+    };
+
+    const updatedColumnTasks = [...(this.tasks[column] || []), nextTask];
+    this.tasks = { ...this.tasks, [column]: updatedColumnTasks };
+    this.showModal = false;
+  }
 }
 
 export default setComponentTemplate(
@@ -106,7 +173,7 @@ export default setComponentTemplate(
             <h1>Gestion des tâches</h1>
             <p>Organisez votre travail avec le Kanban</p>
           </div>
-          <button class="new-task-btn" type="button">＋ Nouvelle tâche</button>
+          <button class="new-task-btn" type="button" {{on "click" this.openModal}}>＋ Nouvelle tâche</button>
         </header>
 
         <section class="kanban-grid">
@@ -131,7 +198,7 @@ export default setComponentTemplate(
                     <p class="task-desc">{{task.desc}}</p>
                     <div class="task-meta">
                       <div class="meta-left">
-                        <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=80" alt="avatar" />
+                        <img src="https://images.unsplash.com/photo-1550525811-e5869dd03032?w=80" alt="avatar" />
                         <span class="meta-date">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z"/></svg>
                           {{task.date}}
@@ -157,6 +224,64 @@ export default setComponentTemplate(
             </article>
           {{/each}}
         </section>
+
+        {{#if this.showModal}}
+          <div class="modal-backdrop" role="presentation" {{on "click" this.closeModal}}>
+            <div class="modal-window" role="dialog" aria-modal="true" {{on "click" this.stopPropagation}}>
+              <header class="modal-header">
+                <div>
+                  <p class="modal-label">Nouvelle tâche</p>
+                  <h2>Ajouter une carte</h2>
+                  <p class="modal-subtitle">Titre obligatoire, le reste est optionnel.</p>
+                </div>
+                <button class="modal-close" type="button" aria-label="Fermer" {{on "click" this.closeModal}}>×</button>
+              </header>
+
+              <form {{on "submit" this.submitTask}}>
+                <div class="modal-field">
+                  <label for="task-title">Titre</label>
+                  <input id="task-title" required value={{this.form.title}} {{on "input" (fn this.updateField "title")}} placeholder="Résumé de la tâche" />
+                </div>
+
+                <div class="modal-field">
+                  <label for="task-desc">Description</label>
+                  <textarea id="task-desc" rows="3" value={{this.form.desc}} {{on "input" (fn this.updateField "desc")}} placeholder="Détails rapides"></textarea>
+                </div>
+
+                <div class="modal-grid">
+                  <div class="modal-field">
+                    <label for="task-column">Colonne</label>
+                    <select id="task-column" value={{this.form.column}} {{on "change" (fn this.updateField "column")}}>
+                      <option>À faire</option>
+                      <option>En cours</option>
+                      <option>En révision</option>
+                      <option>Terminées</option>
+                    </select>
+                  </div>
+
+                  <div class="modal-field">
+                    <label for="task-priority">Priorité</label>
+                    <select id="task-priority" value={{this.form.priority}} {{on "change" (fn this.updateField "priority")}}>
+                      <option>Haute</option>
+                      <option>Moyenne</option>
+                      <option>Basse</option>
+                    </select>
+                  </div>
+
+                  <div class="modal-field">
+                    <label for="task-date">Date</label>
+                    <input id="task-date" value={{this.form.date}} {{on "input" (fn this.updateField "date")}} placeholder="12 Nov" />
+                  </div>
+                </div>
+
+                <div class="modal-actions">
+                  <button class="btn-secondary" type="button" {{on "click" this.closeModal}}>Annuler</button>
+                  <button class="btn-primary" type="submit">Créer</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        {{/if}}
       </main>
     </div>
   `,
