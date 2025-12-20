@@ -9,6 +9,7 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('dashboard');
   this.route('featured');
+  this.route('reseau');
   this.route('tasks');
   this.route('messages');
   this.route('profiles', function() {
