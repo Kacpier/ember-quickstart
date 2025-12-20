@@ -6,6 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { service } from '@ember/service';
 import AppSidebar from './app-sidebar';
 import EditProfileModal from './edit-profile-modal';
+import ConnectionsSearch from './connections-search';
 
 const DEFAULT_PROFILE = {
   name: 'Sophie Laurent',
@@ -240,8 +241,13 @@ export default setComponentTemplate(
   hbs`
     <div class="profile-page">
       <div class="profile-layout">
-
         <AppSidebar />
+
+        <main class="dashboard-main">
+          <ConnectionsSearch
+            @placeholder="Rechercher une connexion, une entreprise ou un centre d'intérêt"
+            @showResults={{true}}
+          />
 
         <section class="profile-main">
 
@@ -560,6 +566,7 @@ export default setComponentTemplate(
             />
           {{/if}}
         </section>
+      </main>
       </div>
     </div>
   `,

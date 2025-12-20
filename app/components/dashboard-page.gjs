@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import { setComponentTemplate } from '@ember/component';
 import { hbs } from 'ember-cli-htmlbars';
 import AppSidebar from './app-sidebar';
+import ConnectionsSearch from './connections-search';
 
 class DashboardPage extends Component {
   @service router;
@@ -76,9 +77,14 @@ class DashboardPage extends Component {
 export default setComponentTemplate(
   hbs`
     <div class="dashboard-page">
-      <AppSidebar class="dashboard-sidebar" />
+      <AppSidebar />
 
       <main class="dashboard-main">
+        <ConnectionsSearch
+          @placeholder="Rechercher une connexion, une entreprise ou un centre d'intérêt"
+          @showResults={{true}}
+        />
+
         <header class="dash-hero">
           <div>
             <p class="dash-hello">Bonjour, {{this.greetingName}} 👋</p>
