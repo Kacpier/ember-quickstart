@@ -78,6 +78,17 @@ class ReseauPage extends Component {
 
   isInvites = (icon) => icon === 'invites';
 
+  tintFor(icon) {
+    switch (icon) {
+      case 'users':
+        return 'tint-blue';
+      case 'invites':
+        return 'tint-purple';
+      default:
+        return 'tint-orange';
+    }
+  }
+
   @action selectTab(tab) {
     this.selectedTab = tab;
   }
@@ -110,26 +121,26 @@ export default setComponentTemplate(
 
         <section class="reseau-stats">
           {{#each this.summaryCards as |card|}}
-            <article class="reseau-stat-card">
-              <div class="stat-icon-box">
-                {{#if (this.isUsers card.icon)}}
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" stroke-width="2" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 21v-2a4 4 0 0 0-3-3.87" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-                {{else if (this.isInvites card.icon)}}
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h2" /><rect x="7" y="3" width="10" height="5" rx="1" ry="1" stroke-width="2" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 11 3 3-3 3m-3-3h6" /></svg>
-                {{else}}
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" /><circle cx="12" cy="12" r="9" stroke-width="2" /></svg>
-                {{/if}}
-              </div>
-              <div>
+            <article class="stat-card reseau-stat-card">
+              <div class="stat-row">
                 <p class="stat-label">{{card.label}}</p>
-                <p class="stat-value-lg">{{card.value}}</p>
+                <span class="stat-icon {{this.tintFor card.icon}}">
+                  {{#if (this.isUsers card.icon)}}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" stroke-width="2" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 21v-2a4 4 0 0 0-3-3.87" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                  {{else if (this.isInvites card.icon)}}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h2" /><rect x="7" y="3" width="10" height="5" rx="1" ry="1" stroke-width="2" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 11 3 3-3 3m-3-3h6" /></svg>
+                  {{else}}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" /><circle cx="12" cy="12" r="9" stroke-width="2" /></svg>
+                  {{/if}}
+                </span>
               </div>
+              <p class="stat-value">{{card.value}}</p>
             </article>
           {{/each}}
         </section>
 
-        <section class="reseau-filters">
-          <div class="reseau-search">
+        <section class="reseau-filters search-section search-bar">
+          <div class="reseau-search search-input">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1 0 5 5a7.5 7.5 0 0 0 11.65 11.65Z" /></svg>
             <input
               type="text"

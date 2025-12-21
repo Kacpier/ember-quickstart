@@ -10,6 +10,7 @@ Router.map(function () {
   this.route('dashboard');
   this.route('featured');
   this.route('reseau');
+  this.route('events');
   this.route('tasks');
   this.route('messages');
   this.route('profiles', function() {
