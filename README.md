@@ -9,9 +9,14 @@ Ce dépôt contient l’ensemble du code nécessaire pour installer, lancer et e
 
 - **Dossier de conception et notes** 
   https://docs.google.com/document/d/1nJB84oapwR5M13cQM07XF_AiiMgIgV_KvrfzG2ONYTM/edit?tab=t.0
+  
+  Voir aussi le fichier PDF (rapport final.pdf), la version finale du rapport.
 
 - **Maquettes Figma** 
-  https://file-narrow-31734414.figma.site/
+PROTOTYPE:
+  https://www.figma.com/proto/PCDGzQCSOjyZLxV6b3XQtB/WebMeets?node-id=60-721&p=f&t=8M0OHCFlifKjpmfR-1&scaling=contain&content-scaling=fixed&page-id=1%3A1283
+DESIGN:
+https://www.figma.com/design/PCDGzQCSOjyZLxV6b3XQtB/WebMeets?node-id=1-1283&t=vA8iICxQ32hbz5eA-1
 
 ## Fonctionnalites
 
@@ -40,14 +45,13 @@ WebMeets propose plusieurs pages représentatives d’un réseau professionnel :
 ## Prerequisites
 
 - [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/) (>= 20 avec npm)
-- [Google Chrome](https://google.com/chrome/) (recomande)
+- [Node.js](https://nodejs.org/)
 
 ## Installation
 
 ```bash
 git clone <repository-url>
-cd emberjs-quickstart
+cd ember-quickstart
 npm install
 ```
 
@@ -57,7 +61,8 @@ La CLI Ember est installée en local via `npm install` ; inutile d'ajouter `embe
 
 - Dev server : 
 - `npm run start`
-- Visit your app at [http://localhost:4200](http://localhost:4200).
+- Une fois lancé, se rendre à l'url: [http://localhost:4200](http://localhost:4200).
+- P.S. : Si l'application ne se lance pas (erreur avec module), relancez la commande 
 
 ## Structure rapide
 
@@ -68,9 +73,6 @@ La CLI Ember est installée en local via `npm install` ; inutile d'ajouter `embe
 ## Astuces
 
 - [ember.js](https://emberjs.com/)
-- [Vite](https://vite.dev)
 - Development Browser Extensions
   - [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   - [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
-
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) 
