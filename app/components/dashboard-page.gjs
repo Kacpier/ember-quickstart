@@ -41,20 +41,22 @@ class DashboardPage extends Component {
       author: 'Emma Petit',
       time: 'Il y a 2h',
       text: "Excellente conférence sur l'IA et l'avenir du travail ! Les opportunités sont immenses pour...",
+      image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=160',
       likes: 24,
     },
     {
       author: 'Thomas Martin',
       time: 'Il y a 5h',
       text: "Nouveau projet open source ! N'hésitez pas à contribuer sur GitHub 💻",
+      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160',
       likes: 42,
     },
   ];
 
   newConnections = [
-    { name: 'Marie Dubois', role: 'Designer UX/UI' },
-    { name: 'Thomas Martin', role: 'Développeur Full Stack' },
-    { name: 'Emma Petit', role: 'Product Manager' },
+    { name: 'Marie Dubois', role: 'Designer UX/UI', image: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=160' },
+    { name: 'Thomas Martin', role: 'Développeur Full Stack', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160' },
+    { name: 'Emma Petit', role: 'Product Manager', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=160' },
   ];
 
   upcomingEvents = [
@@ -153,7 +155,7 @@ export default setComponentTemplate(
               {{#each this.featuredPosts as |post|}}
                 <div class="feed-item">
                   <div class="feed-author">
-                    <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=80" alt="{{post.author}}" class="feed-avatar" />
+                    <img src="{{post.image}}" alt="{{post.author}}" class="feed-avatar" />
                     <div>
                       <p class="feed-name">{{post.author}}</p>
                       <p class="feed-time">{{post.time}}</p>
@@ -178,7 +180,7 @@ export default setComponentTemplate(
               {{#each this.newConnections as |person|}}
                 <div class="connection-row">
                   <div class="connection-user">
-                    <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=80" alt="{{person.name}}" class="feed-avatar" />
+                    <img src="{{person.image}}" alt="{{person.name}}" class="feed-avatar" />
                     <div>
                       <p class="feed-name">{{person.name}}</p>
                       <p class="feed-time">{{person.role}}</p>

@@ -5,110 +5,12 @@ import { setComponentTemplate } from '@ember/component';
 import { hbs } from 'ember-cli-htmlbars';
 import { service } from '@ember/service';
 import AppSidebar from './app-sidebar';
-
-const DEFAULT_POSTS = [
-  {
-    author: 'Emma Petit',
-    title: 'Marketing Manager • Growth Agency',
-    time: 'Il y a 1 j',
-    text:
-      'Nouvelle stratégie de contenu pour 2024 ! Focus sur l’authenticité et l’engagement communautaire. Quelles sont vos meilleures pratiques ? 📢',
-    tags: ['Marketing', 'Stratégie', 'Contenu'],
-    likes: 35,
-    commentsCount: 12,
-    shares: 8,
-    liked: false,
-  },
-  {
-    author: 'Paul Rousseau',
-    title: 'DevOps Engineer • Cloud Systems',
-    time: 'Il y a 4 j',
-    text:
-      'Migration réussie vers Kubernetes ! Le déploiement est maintenant 3x plus rapide. Voici les leçons apprises… 🚀',
-    tags: ['DevOps', 'Kubernetes', 'Cloud'],
-    likes: 28,
-    commentsCount: 9,
-    shares: 6,
-    liked: false,
-  },
-  {
-    author: 'Julie Moreau',
-    title: 'UX Researcher',
-    time: 'Il y a 12 j',
-    text:
-      'Webinaire gratuit sur la recherche utilisateur ! Inscrivez-vous maintenant pour les dernières places disponibles. 🎯',
-    tags: ['UX', 'Formation', 'Webinaire', 'Événement'],
-    likes: 45,
-    commentsCount: 18,
-    shares: 15,
-    liked: false,
-  },
-  {
-    author: 'Marie Dubois',
-    title: 'Responsable RH • Innovate Inc',
-    time: 'Il y a 14 j',
-    text:
-      'Nous recherchons un UX Designer passionné(e) pour rejoindre notre équipe ! CDI, remote possible. Expérience en design thinking requise. Postulez dès maintenant ! 👋',
-    tags: ['Recrutement', 'UX Design', 'Remote', "Offre d'emploi"],
-    likes: 18,
-    commentsCount: 6,
-    shares: 22,
-    liked: false,
-  },
-  {
-    author: 'Lucas Bernard',
-    title: 'Product Manager',
-    time: 'Il y a 16 j',
-    text: '',
-    tags: ['Agilité', 'Management', 'Productivité'],
-    isPoll: true,
-    poll: {
-      question: 'Quelle méthodologie agile préférez-vous pour gérer vos projets ?',
-      options: ['Scrum', 'Kanban', 'Lean', 'Autre'],
-    },
-    likes: 12,
-    commentsCount: 23,
-    shares: 2,
-    liked: false,
-  },
-  {
-    author: 'Sophie Laurent',
-    title: 'Cheffe de projet digital • TechCorp',
-    time: 'Il y a 2h',
-    text:
-      "Excellente conférence sur l'IA et l'avenir du travail ! Les opportunités sont immenses pour notre secteur. Qui était présent ? 🚀",
-    tags: ['IA', 'Innovation', 'Futur du travail'],
-    image:
-      'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&auto=format&fit=crop&q=80',
-    likes: 24,
-    commentsCount: 8,
-    comments: [
-      { author: 'Thomas', text: 'J’y étais, super keynote !', time: 'Il y a 1h' },
-      { author: 'Marie', text: 'Les démos étaient incroyables.', time: 'Il y a 30min' },
-    ],
-    shares: 3,
-    liked: false,
-  },
-  {
-    author: 'Thomas Martin',
-    title: 'Développeur Full Stack • OpenSourceLab',
-    time: 'Il y a 5h',
-    text: 'Nouveau projet open source ! Venez contribuer sur GitHub 🤖',
-    tags: ['Open Source', 'Dev', 'Collaboration'],
-    image:
-      'https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?w=1200&auto=format&fit=crop&q=80',
-    likes: 12,
-    commentsCount: 2,
-    comments: [
-      { author: 'Sophie', text: 'Hâte de contribuer !', time: 'Il y a 3h' },
-    ],
-    shares: 1,
-    liked: false,
-  },
-];
+import DEFAULT_POSTS from '../data/featured-posts';
 
 class FeaturedPage extends Component {
   @service currentUser;
+
+  defaultAvatar = 'https://images.unsplash.com/photo-1550525811-e5869dd03032?w=80';
 
   tabs = [
     'Tous',
@@ -133,6 +35,10 @@ class FeaturedPage extends Component {
     return this.currentUser.name || 'Vous';
   }
 
+  get currentAvatar() {
+    return this.currentUser.avatar || this.defaultAvatar;
+  }
+
   get displayTitle() {
     return this.currentUser.email ? `${this.currentUser.email} • WebMeets` : 'Membre WebMeets';
   }
@@ -147,6 +53,7 @@ class FeaturedPage extends Component {
     return {
       ...post,
       id: post.id ?? `default-post-${index}`,
+      avatar: post.avatar ?? this.defaultAvatar,
       comments: post.comments ?? [],
       draftComment: post.draftComment ?? '',
       isCommenting: post.isCommenting ?? false,
@@ -235,6 +142,7 @@ class FeaturedPage extends Component {
           author: this.displayName,
           title: this.displayTitle,
           time: 'À l’instant',
+          avatar: this.currentUser.avatar ?? this.defaultAvatar,
           text: '',
           tags: ['Sondage'],
           isPoll: true,
@@ -265,6 +173,7 @@ class FeaturedPage extends Component {
         title: this.displayTitle,
         time: 'À l’instant',
         text,
+        avatar: this.currentAvatar,
         tags: ['Nouveau'],
         image: null,
         likes: 0,
@@ -371,7 +280,7 @@ export default setComponentTemplate(
 
         <section class="post-box">
           <div class="post-box-avatar">
-            <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=200" alt={{this.displayName}} />
+            <img src={{this.currentAvatar}} alt={{this.displayName}} />
           </div>
           <div class="post-box-body">
             {{#if this.isPoll}}
@@ -439,7 +348,7 @@ export default setComponentTemplate(
             <article class="feed-card">
               <header class="feed-card-head">
                 <div class="feed-author">
-                  <img src="https://images.unsplash.com/photo-1629507208649-70919ca33793?w=100" alt="{{post.author}}" />
+                  <img src={{post.avatar}} alt="{{post.author}}" />
                   <div>
                     <p class="feed-name">{{post.author}}</p>
                     <p class="feed-role">{{post.title}}</p>
