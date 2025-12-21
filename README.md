@@ -11,7 +11,10 @@ Ce dépôt contient l’ensemble du code nécessaire pour installer, lancer et e
   https://docs.google.com/document/d/1nJB84oapwR5M13cQM07XF_AiiMgIgV_KvrfzG2ONYTM/edit?tab=t.0
 
 - **Maquettes Figma** 
-  https://file-narrow-31734414.figma.site/
+  -  Maquette de basse fidélité
+    https://www.figma.com/design/PCDGzQCSOjyZLxV6b3XQtB/WebMeets?node-id=1-1283&p=f&t=7MHE4zlyHcaswFOa-0
+  - Maquette de moyenne fidélité
+    https://file-narrow-31734414.figma.site/
 
 ## Fonctionnalites
 
