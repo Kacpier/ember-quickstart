@@ -13,10 +13,10 @@ Ce dépôt contient l’ensemble du code nécessaire pour installer, lancer et e
   Voir aussi le fichier PDF (rapport final.pdf), la version finale du rapport.
 
 - **Maquettes Figma** 
-PROTOTYPE:
-  https://www.figma.com/proto/PCDGzQCSOjyZLxV6b3XQtB/WebMeets?node-id=60-721&p=f&t=8M0OHCFlifKjpmfR-1&scaling=contain&content-scaling=fixed&page-id=1%3A1283
-DESIGN:
-https://www.figma.com/design/PCDGzQCSOjyZLxV6b3XQtB/WebMeets?node-id=1-1283&t=vA8iICxQ32hbz5eA-1
+  -  Maquette de basse fidélité
+    https://www.figma.com/design/PCDGzQCSOjyZLxV6b3XQtB/WebMeets?node-id=1-1283&p=f&t=7MHE4zlyHcaswFOa-0
+  - Maquette de moyenne fidélité
+    https://file-narrow-31734414.figma.site/
 
 ## Fonctionnalites
 
@@ -64,11 +64,25 @@ La CLI Ember est installée en local via `npm install` ; inutile d'ajouter `embe
 - Une fois lancé, se rendre à l'url: [http://localhost:4200](http://localhost:4200).
 - P.S. : Si l'application ne se lance pas (erreur avec module), relancez la commande 
 
-## Structure rapide
+## Acces a l'application
 
-- app/ : code Ember (routes, composants GJS, services, styles, templates).
-- config/ : configuration Ember/Vite/targets.
-- public/ : assets statiques.
+- Option 1 : utiliser le profil de base pour la connexion rapide.
+ 
+  "Sophie Laurent" 
+  sophie.laurent@example.com
+
+- Option 2 : saisir n'importe quel nom et email ; cela suffit pour passer l'ecran de connexion et voir ces valeurs reflétées sur le tableau de bord. Le reste des contenus est du mock data.
+
+## Architecture du projet
+
+- app/router.js : declaration des routes (dashboard, featured, events, messages, profiles, reseau, tasks).
+- app/components/ : composants GJS (sidebar, dashboard-page, featured-page, events-page, login-screen, messages-page, profile-page, reseau-page, tasks-board, edit-profile-modal, connections-search).
+- app/routes/ et app/controllers/ : logiques par page (index, profiles).
+- app/templates/ : templates GJS pour application, index, dashboard, featured, events, messages, profiles (+ profil detail), reseau, tasks.
+- app/services/current-user.js : service pour conserver l'utilisateur courant.
+- app/data/connections.js : mock data des connexions/profils.
+- app/styles/app.css : styles globaux.
+- public/logo.svg : asset statique principal.
 
 ## Astuces
 
