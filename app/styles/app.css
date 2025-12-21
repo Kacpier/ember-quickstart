@@ -261,6 +261,8 @@ textarea {
   gap: 12px;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
 }
 
 .sidebar-avatar {

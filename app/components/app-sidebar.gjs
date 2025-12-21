@@ -37,13 +37,13 @@ export default setComponentTemplate(
         </div>
       </div>
 
-      <div class="sidebar-profile">
+      <LinkTo @route="profiles" class="sidebar-profile" aria-label="Aller au profil">
         <img src="https://images.unsplash.com/photo-1550525811-e5869dd03032?w=80" class="sidebar-avatar" alt={{this.displayName}} />
         <div>
           <div class="sidebar-profile-name">{{this.displayName}}</div>
           <div class="sidebar-profile-role">{{this.displaySubtitle}}</div>
         </div>
-      </div>
+      </LinkTo>
 
       <nav class="sidebar-nav">
         <ul>
