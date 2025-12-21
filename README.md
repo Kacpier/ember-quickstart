@@ -62,11 +62,25 @@ La CLI Ember est installée en local via `npm install` ; inutile d'ajouter `embe
 - `npm run start`
 - Visit your app at [http://localhost:4200](http://localhost:4200).
 
-## Structure rapide
+## Acces a l'application
 
-- app/ : code Ember (routes, composants GJS, services, styles, templates).
-- config/ : configuration Ember/Vite/targets.
-- public/ : assets statiques.
+- Option 1 : utiliser le profil de base pour la connexion rapide.
+ 
+  "Sophie Laurent" 
+  sophie.laurent@example.com
+
+- Option 2 : saisir n'importe quel nom et email ; cela suffit pour passer l'ecran de connexion et voir ces valeurs reflétées sur le tableau de bord. Le reste des contenus est du mock data.
+
+## Architecture du projet
+
+- app/router.js : declaration des routes (dashboard, featured, events, messages, profiles, reseau, tasks).
+- app/components/ : composants GJS (sidebar, dashboard-page, featured-page, events-page, login-screen, messages-page, profile-page, reseau-page, tasks-board, edit-profile-modal, connections-search).
+- app/routes/ et app/controllers/ : logiques par page (index, profiles).
+- app/templates/ : templates GJS pour application, index, dashboard, featured, events, messages, profiles (+ profil detail), reseau, tasks.
+- app/services/current-user.js : service pour conserver l'utilisateur courant.
+- app/data/connections.js : mock data des connexions/profils.
+- app/styles/app.css : styles globaux.
+- public/logo.svg : asset statique principal.
 
 ## Astuces
 
